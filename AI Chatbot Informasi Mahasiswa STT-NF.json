@@ -1,0 +1,114 @@
+{
+  "name": "AI Chatbot Informasi Mahasiswa STT-NF",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        0
+      ],
+      "id": "351a15bd-d17c-4eef-9fad-652cdad3640e",
+      "name": "When chat message received",
+      "webhookId": "3a839026-2815-4395-8e9a-3117b43b5b72"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Anda adalah AI Chatbot Informasi Mahasiswa STT-NF.\n\nTugas utama Anda adalah membantu mahasiswa menjawab pertanyaan umum seputar perkuliahan, tugas akademik, kegiatan mahasiswa, organisasi mahasiswa, teknologi, serta konsep pembelajaran yang berkaitan dengan dunia perkuliahan.\n\nBerikan jawaban dalam bahasa Indonesia yang jelas, singkat, ramah, dan mudah dipahami oleh mahasiswa.\n\nJika pengguna menanyakan suatu konsep atau istilah, jelaskan dengan bahasa sederhana dan berikan contoh jika diperlukan.\n\nJika pertanyaan berkaitan dengan tugas kuliah, bantu pengguna memahami langkah pengerjaan dan konsepnya, tetapi jangan mengaku telah melakukan sesuatu yang sebenarnya belum dilakukan.\n\nJangan membuat informasi resmi kampus yang tidak diketahui atau tidak tersedia. Jika informasi tidak diketahui, katakan dengan jujur bahwa informasi tersebut tidak tersedia dan sarankan pengguna mengecek sumber resmi.\n\nJawablah pertanyaan sesuai konteks percakapan sebelumnya dan gunakan riwayat percakapan untuk menjaga kesinambungan jawaban.\n\nSelalu gunakan bahasa Indonesia kecuali pengguna meminta bahasa lain.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "a5e3cc83-a573-44cd-9519-149b4b1fc08f",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        160,
+        208
+      ],
+      "id": "a01ed7c2-78e3-4e9f-897b-03f062635743",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "6IVLNqliw1gdMCI1",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        320,
+        208
+      ],
+      "id": "3ae5a42d-bd0f-45b9-96fe-b538b30cf264",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "3ef11e45-443e-458b-bcf5-728fcec7b902",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "dc96f10ae7dc95d3c138575ba243a0a167923dbcb524841d451aadf9135d5fb3"
+  },
+  "nodeGroups": [],
+  "id": "OOZmgr84YyMdNBvL",
+  "tags": []
+}
